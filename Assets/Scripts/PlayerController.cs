@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour {
 	public float jumpForce = 290f;
 	public bool doubleJump = false;
 
-
 	public bool edge;
 	public Transform sightStart, sightEnd;
 
@@ -20,8 +19,10 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
-		if (grounded)
+		if (grounded) {
 			doubleJump = false;
+		}
+
 		anim.SetBool ("Ground", grounded);
 
 		anim.SetFloat ("vSpeed", GetComponent<Rigidbody2D>().velocity.y);
@@ -37,6 +38,7 @@ public class PlayerController : MonoBehaviour {
 		else if (move < 0 && facingRight)
 			Flip ();
 
+		// EDGE LOGIC
 		Debug.DrawLine (sightStart.position, sightEnd.position, Color.green);
 
 		// Checking if the player is close to the right edge

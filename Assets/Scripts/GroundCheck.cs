@@ -10,11 +10,15 @@ public class GroundCheck : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D (Collider2D col) {
-		player.grounded = true;
+		if (col.GetComponent<Collider2D>().gameObject.layer != LayerMask.NameToLayer ("Enemy")) {
+			player.grounded = true;
+		}
 	}
 
 	void OnTriggerStay2D (Collider2D col) {
-		player.grounded = true;
+		if (col.GetComponent<Collider2D>().gameObject.layer != LayerMask.NameToLayer ("Enemy")) {
+			player.grounded = true;
+		}
 	}
 
 	void OnTriggerExit2D (Collider2D col) {
