@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class EnemyController : MonoBehaviour {
+	
 	public float curHealth = 24;
 	public bool dead = false;
 	private bool played = false;

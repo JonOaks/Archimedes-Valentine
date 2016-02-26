@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class PauseMenu : MonoBehaviour {
+	
 	public GameObject pauseUI;
 
 	private bool paused = false;
@@ -22,6 +23,7 @@ public class PauseMenu : MonoBehaviour {
 
 	void Start () {
 		pauseUI.SetActive (false);
+		defaultPauseMenu = true;
 		menuMovePlayed = false;
 		menuSelectPlayed = false;
 		menuEnterPlayed = true;
@@ -66,6 +68,16 @@ public class PauseMenu : MonoBehaviour {
 					instantiatedObject = Instantiate(menuMoveSoundObject);
 					Destroy (instantiatedObject, soundTime);
 				}
+				if (Input.GetKeyDown (KeyCode.Z)) {
+					if (!menuSelectPlayed) {
+						menuSelectPlayed = true;
+						soundTime = menuSelectSoundObject.GetComponent<AudioSource> ().clip.length;
+						instantiatedObject = Instantiate(menuSelectSoundObject);
+						Destroy (instantiatedObject, soundTime);
+						Application.LoadLevel ("LoadingScreen");
+					}
+					paused = false;
+				}
 			}
 			pauseUI.SetActive (true);
 			Time.timeScale = 0;
@@ -78,8 +90,10 @@ public class PauseMenu : MonoBehaviour {
 				instantiatedObject = Instantiate(menuEnterSoundObject);
 				Destroy (instantiatedObject, soundTime);
 			}
+			defaultPauseMenu = true;
 			menuEnterPlayed = true;
 			menuSelectPlayed = false;
+			menuMovePlayed = false;
 			pauseUI.SetActive (false);
 			Time.timeScale = 1;
 

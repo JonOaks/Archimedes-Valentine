@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class PlayerController : MonoBehaviour {
+	
 	public float maxSpeed = 5f;
 	public bool facingRight = true;
 
