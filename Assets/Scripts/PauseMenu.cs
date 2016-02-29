@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour {
 	
@@ -35,6 +36,8 @@ public class PauseMenu : MonoBehaviour {
 		}
 
 		if (paused) {
+			pauseUI.SetActive (true);
+			Time.timeScale = 0;
 			if (menuEnterPlayed) {
 				menuEnterPlayed = false;
 				soundTime = menuEnterSoundObject.GetComponent<AudioSource> ().clip.length;
@@ -71,16 +74,11 @@ public class PauseMenu : MonoBehaviour {
 				if (Input.GetKeyDown (KeyCode.Z)) {
 					if (!menuSelectPlayed) {
 						menuSelectPlayed = true;
-						soundTime = menuSelectSoundObject.GetComponent<AudioSource> ().clip.length;
-						instantiatedObject = Instantiate(menuSelectSoundObject);
-						Destroy (instantiatedObject, soundTime);
-						Application.LoadLevel ("LoadingScreen");
+						SceneManager.LoadScene ("LoadingScreen");
 					}
 					paused = false;
 				}
 			}
-			pauseUI.SetActive (true);
-			Time.timeScale = 0;
 			if (Input.GetKeyDown (KeyCode.DownArrow) || Input.GetKeyDown (KeyCode.UpArrow)) {
 				defaultPauseMenu = !defaultPauseMenu;
 			}

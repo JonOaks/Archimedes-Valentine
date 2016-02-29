@@ -49,6 +49,9 @@
      <Compile Include="Assets\Scripts\CameraController.cs" />
      <Compile Include="Assets\Scripts\EnemyController.cs" />
      <Compile Include="Assets\Scripts\GroundCheck.cs" />
+     <Compile Include="Assets\Scripts\HUD.cs" />
+     <Compile Include="Assets\Scripts\HurtEnemyOnContact.cs" />
+     <Compile Include="Assets\Scripts\HurtPlayerOnContact.cs" />
      <Compile Include="Assets\Scripts\LoadingScreen.cs" />
      <Compile Include="Assets\Scripts\PauseMenu.cs" />
      <Compile Include="Assets\Scripts\PlayerAttack.cs" />

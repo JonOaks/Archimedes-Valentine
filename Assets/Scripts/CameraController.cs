@@ -101,7 +101,8 @@ public class CameraController : MonoBehaviour {
 	
 	void CameraUpdate ()
 	{
-		playerPosition = player.transform.position;
+		if (player != null)
+			playerPosition = player.transform.position;
 		
 		//Only worry about updating the camera based on player position if the player has actually moved.
 		//If the tracking isn't active at all, we don't bother with any of this crap.

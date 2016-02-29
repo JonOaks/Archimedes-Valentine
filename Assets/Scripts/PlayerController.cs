@@ -1,22 +1,38 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 	
-	public float maxSpeed = 5f;
-	public bool facingRight = true;
+	public Transform sightStart, sightEnd;
 
 	Animator anim;
 
-	public bool grounded = false;
 	public float jumpForce = 290f;
-	public bool doubleJump = false;
+	public float maxSpeed = 5f;
 
+	public bool facingRight = true;
+	public bool grounded = false;
+	public bool doubleJump = false;
 	public bool edge;
-	public Transform sightStart, sightEnd;
+
+	private PlayerAttack playerAttack;
+
+	// Stats
+	public int curHealth;
+	public int maxHealth;
+
+	public float knockback;
+	public float knockbackLength;
+	public float knockbackCount;
+	public bool knockFromRight;
 
 	void Start () {
 		anim = gameObject.GetComponent<Animator> ();
+		playerAttack = gameObject.GetComponent<PlayerAttack> ();
+
+		maxHealth = 5;
+		curHealth = maxHealth;
 	}
 
 	void FixedUpdate () {
@@ -30,9 +46,24 @@ public class PlayerController : MonoBehaviour {
 
 		float move = Input.GetAxis ("Horizontal");
 
+		if(grounded && playerAttack.attacking)
+		{
+			move = 0;
+		}
+
 		anim.SetFloat ("Speed", Mathf.Abs(move));
 
-		GetComponent<Rigidbody2D>().velocity = new Vector2 (move * maxSpeed, GetComponent<Rigidbody2D>().velocity.y);
+		if (knockbackCount <= 0) {
+			GetComponent<Rigidbody2D> ().velocity = new Vector2 (move * maxSpeed, GetComponent<Rigidbody2D> ().velocity.y);
+		} else {
+			if (knockFromRight) {
+				GetComponent<Rigidbody2D> ().velocity = new Vector2 (-knockback, knockback);
+			}
+			if (!knockFromRight) {
+				GetComponent<Rigidbody2D> ().velocity = new Vector2 (knockback, knockback);
+			}
+			knockbackCount -= Time.deltaTime;
+		}
 
 		if (move > 0 && !facingRight)
 			Flip ();
@@ -40,7 +71,7 @@ public class PlayerController : MonoBehaviour {
 			Flip ();
 
 		// EDGE LOGIC
-		Debug.DrawLine (sightStart.position, sightEnd.position, Color.green);
+		Debug.DrawLine (sightStart.position, sightEnd.position, Color.green); // Debugging line reference
 
 		// Checking if the player is close to the right edge
 		if (Physics2D.Linecast (sightStart.position, sightEnd.position, 1 << LayerMask.NameToLayer ("Right Edge")) 
@@ -70,6 +101,14 @@ public class PlayerController : MonoBehaviour {
 				doubleJump = true;
 			}
 		}
+
+		if (curHealth > maxHealth) {
+			curHealth = maxHealth;
+		}
+
+		if (curHealth <= 0) {
+			Die ();
+		}
 	}
 
 	void Flip () {
@@ -77,5 +116,10 @@ public class PlayerController : MonoBehaviour {
 		Vector3 theScale = transform.localScale;
 		theScale.x *= -1;
 		transform.localScale = theScale;
+	}
+
+	void Die () {
+		Debug.Log ("I died :(");
+		Destroy (gameObject);
 	}
 }
