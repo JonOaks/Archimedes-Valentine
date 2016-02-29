@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour {
 	public int curHealth;
 	public int maxHealth;
 
+	// Knockback
 	public float knockback;
 	public float knockbackLength;
 	public float knockbackCount;
@@ -86,6 +87,11 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		anim.SetBool ("Edge", edge);
+
+		// In case the couroutine from the enemy on trigger function stops
+		if (!GetComponent<SpriteRenderer> ().enabled) {
+			GetComponent<SpriteRenderer> ().enabled = true;
+		}
 	}
 
 	void Update () {

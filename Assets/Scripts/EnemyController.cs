@@ -25,6 +25,7 @@ public class EnemyController : MonoBehaviour {
 				played = true;
 				Instantiate(explosionSoundObject);
 			}
+			Physics2D.IgnoreLayerCollision(11, 13, false);
 		}
 	}
 
