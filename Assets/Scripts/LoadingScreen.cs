@@ -11,10 +11,10 @@ public class LoadingScreen : MonoBehaviour {
 		soundObject = GameObject.Find("Loading_Screen_Sound");
 	}
 
-	void Update () {
+	void FixedUpdate () {
 		if (soundObject.GetComponent<AudioSource> ().volume == 0) {
 			SceneManager.LoadScene ("Stage1");
 		}
-		soundObject.GetComponent<AudioSource> ().volume -= 0.0012f;
+		soundObject.GetComponent<AudioSource> ().volume -= 0.001f;
 	}
 }

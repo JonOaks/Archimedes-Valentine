@@ -47,9 +47,16 @@ public class PlayerController : MonoBehaviour {
 
 		float move = Input.GetAxis ("Horizontal");
 
-		if(grounded && playerAttack.attacking)
+		if((grounded && playerAttack.attacking) || anim.GetBool ("Dead"))
 		{
 			move = 0;
+		}
+
+		if(anim.GetBool ("Dead")) {
+			move = 0;
+			doubleJump = true;
+			grounded = false;
+			playerAttack.attackTrigger.enabled = false;
 		}
 
 		anim.SetFloat ("Speed", Mathf.Abs(move));
@@ -114,6 +121,7 @@ public class PlayerController : MonoBehaviour {
 
 		if (curHealth <= 0) {
 			Die ();
+
 		}
 	}
 
@@ -125,7 +133,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Die () {
-		Debug.Log ("I died :(");
-		Destroy (gameObject);
+		Physics2D.IgnoreLayerCollision(11, 13, true);
+		anim.SetBool ("Dead", true);
 	}
 }
