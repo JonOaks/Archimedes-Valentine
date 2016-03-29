@@ -94,7 +94,6 @@ public class PauseMenu : MonoBehaviour {
 			menuMovePlayed = false;
 			pauseUI.SetActive (false);
 			Time.timeScale = 1;
-
 		}
 	}
 }

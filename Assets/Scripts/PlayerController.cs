@@ -8,13 +8,14 @@ public class PlayerController : MonoBehaviour {
 
 	Animator anim;
 
-	public float jumpForce = 290f;
-	public float maxSpeed = 5f;
+	public float jumpForce;
+	public float maxSpeed;
 
-	public bool facingRight = true;
-	public bool grounded = false;
-	public bool doubleJump = false;
+	public bool facingRight;
+	public bool grounded;
+	public bool doubleJump;
 	public bool edge;
+	private bool jumped = false;
 
 	private PlayerAttack playerAttack;
 
@@ -32,14 +33,19 @@ public class PlayerController : MonoBehaviour {
 		anim = gameObject.GetComponent<Animator> ();
 		playerAttack = gameObject.GetComponent<PlayerAttack> ();
 
+		jumpForce = 430f;
+		maxSpeed = 9f;
+
+		facingRight = true;
+		grounded = false;
+		doubleJump = true;
+		jumped = false;
+
 		maxHealth = 5;
 		curHealth = maxHealth;
 	}
 
 	void FixedUpdate () {
-		if (grounded) {
-			doubleJump = false;
-		}
 
 		anim.SetBool ("Ground", grounded);
 
@@ -55,6 +61,7 @@ public class PlayerController : MonoBehaviour {
 		if(anim.GetBool ("Dead")) {
 			move = 0;
 			doubleJump = true;
+			jumped = true;
 			grounded = false;
 			playerAttack.attackTrigger.enabled = false;
 		}
@@ -99,20 +106,30 @@ public class PlayerController : MonoBehaviour {
 		if (!GetComponent<SpriteRenderer> ().enabled) {
 			GetComponent<SpriteRenderer> ().enabled = true;
 		}
+
+		if (grounded) {
+			jumped = false;
+		}
 	}
 
 	void Update () {
-		if ((grounded || !doubleJump) && Input.GetKeyDown (KeyCode.Space)) {
+		if (grounded) {
+			jumped = false;
+		}
+
+		if ((grounded || !jumped) && Input.GetKeyDown (KeyCode.Space)) {
+			grounded = false;
+			jumped = true;
 			anim.SetBool ("Ground", false);
 			GetComponent<Rigidbody2D> ().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, 0);
 			GetComponent<Rigidbody2D>().AddForce (new Vector2(0, jumpForce));
 
-			if (!doubleJump && !grounded) {
+			/*if (!doubleJump && !grounded) {
 				anim.SetBool ("Ground", false);
 				GetComponent<Rigidbody2D> ().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, 0);
 				GetComponent<Rigidbody2D>().AddForce (new Vector2(0, 140f));
 				doubleJump = true;
-			}
+			}*/
 		}
 
 		if (curHealth > maxHealth) {
