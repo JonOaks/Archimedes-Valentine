@@ -13,7 +13,7 @@ public class LoadingScreen : MonoBehaviour {
 
 	void FixedUpdate () {
 		if (soundObject.GetComponent<AudioSource> ().volume == 0) {
-			SceneManager.LoadScene ("Stage1");
+			SceneManager.LoadScene ("MainMenu");
 		}
 		soundObject.GetComponent<AudioSource> ().volume -= 0.001f;
 	}
