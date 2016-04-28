@@ -10,19 +10,20 @@ public class GroundCheck : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D (Collider2D col) {
-		if (col.GetComponent<Collider2D>().gameObject.layer != LayerMask.NameToLayer ("Enemy")) {
+		if (col.GetComponent<Collider2D>().gameObject.layer != LayerMask.NameToLayer ("Enemy") && col.tag != "Transition") {
 			player.grounded = true;
 		}
 	}
 
 	void OnTriggerStay2D (Collider2D col) {
-		if (col.GetComponent<Collider2D>().gameObject.layer != LayerMask.NameToLayer ("Enemy")) {
+		if (col.GetComponent<Collider2D>().gameObject.layer != LayerMask.NameToLayer ("Enemy") && col.tag != "Transition") {
 			player.grounded = true;
 		}
 	}
 
 	void OnTriggerExit2D (Collider2D col) {
-		player.grounded = false;
+		if (col.tag != "Transition")
+			player.grounded = false;
 	}
 
 }

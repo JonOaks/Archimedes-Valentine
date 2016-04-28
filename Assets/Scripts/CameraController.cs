@@ -1,24 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-// This is basically how the Super Metroid camera worked. Whichever direction you moved, the camera would 
-// move in the same direction a multiple of the player's speed. Once the center of the camera moved a 
-// certain distance from the player, the camera would lock on the player and move the same speed. Change
-// movement direction, and the camera would once again move more quickly to catch up and place itself 
-// ahead of the player's movement.
-
-// Super Metroid also had area limits and locked certain axes based on where you were. For instance, if 
-// you were in a vertical-only location, it would not move left or right at all, but would move normally 
-// up and down until it hit a boundary. To do this, I have provided the LimitCameraMovement bool and 
-// limit variables to set boundaries on camera movement. Set both limits on the same axis to the same 
-// number if you want to lock the camera on that axis. I've included a few handy functions at the bottom 
-// that turn this into a legit camera system.
-
-// Get in touch with me, @Jellybit on twitter if you like this, have questions, or find it lacking or 
-// weird somehow. Use this however you wish. I'd appreciate some sort of thanks, but nothing's required.
-
-// From now on, I'll put the newest version on github here: https://gist.github.com/Jellybit/9f6182c25bceac06db31
-
 public class CameraController : MonoBehaviour {
 
 	[Header("Basic Setup")]
@@ -332,10 +314,12 @@ public class CameraController : MonoBehaviour {
 
 		while (transform.position != targetPosition)
 		{
+			player.GetComponent<PlayerController> ().cameraMoving = true;
 			transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
 			yield return 0;
 		}
 
+		player.GetComponent<PlayerController> ().cameraMoving = false;
 		activeTracking = true;
 	}
 	

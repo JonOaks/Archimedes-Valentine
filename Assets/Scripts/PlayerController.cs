@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour {
 
 	public float jumpForce;
 	public float maxSpeed;
+	public float move;
 
 	public bool facingRight;
 	public bool grounded;
@@ -29,6 +30,23 @@ public class PlayerController : MonoBehaviour {
 	public float knockbackCount;
 	public bool knockFromRight;
 
+	// Death Sound
+	public GameObject deathSoundObject;
+	private GameObject instantiatedSoundObject;
+	private bool deathSoundPlayed = false;
+
+	// Transition Between Areas
+	public GameObject cameraObject;
+	private float cameraSize;
+	private CameraController cameraScript;
+	public bool cameraMoving = false;
+	public GameObject transitionObject;
+
+	private float previousLimitLeft;
+	private float previousLimitRight;
+	private float previousLimitTop;
+	private float previousLimitBot;
+
 	void Start () {
 		anim = gameObject.GetComponent<Animator> ();
 		playerAttack = gameObject.GetComponent<PlayerAttack> ();
@@ -43,6 +61,9 @@ public class PlayerController : MonoBehaviour {
 
 		maxHealth = 5;
 		curHealth = maxHealth;
+
+		cameraScript = cameraObject.GetComponent<CameraController> ();
+		cameraSize = cameraObject.GetComponent<Camera> ().aspect * (cameraObject.GetComponent<Camera>().orthographicSize * 2f);
 	}
 
 	void FixedUpdate () {
@@ -51,9 +72,9 @@ public class PlayerController : MonoBehaviour {
 
 		anim.SetFloat ("vSpeed", GetComponent<Rigidbody2D>().velocity.y);
 
-		float move = Input.GetAxis ("Horizontal");
+		move = Input.GetAxis ("Horizontal");
 
-		if((grounded && playerAttack.attacking) || anim.GetBool ("Dead"))
+		if(grounded && playerAttack.attacking)
 		{
 			move = 0;
 		}
@@ -64,6 +85,13 @@ public class PlayerController : MonoBehaviour {
 			jumped = true;
 			grounded = false;
 			playerAttack.attackTrigger.enabled = false;
+
+			if (instantiatedSoundObject == null)
+				SceneManager.LoadScene ("Stage1");
+		}
+
+		if (cameraMoving) {
+			move = 0;
 		}
 
 		anim.SetFloat ("Speed", Mathf.Abs(move));
@@ -152,5 +180,38 @@ public class PlayerController : MonoBehaviour {
 	void Die () {
 		Physics2D.IgnoreLayerCollision(11, 13, true);
 		anim.SetBool ("Dead", true);
+		if (!deathSoundPlayed) {
+			deathSoundPlayed = true;
+			instantiatedSoundObject = Instantiate (deathSoundObject);
+			Destroy (instantiatedSoundObject, deathSoundObject.GetComponent<AudioSource> ().clip.length + 1);
+		}
+	}
+
+	void OnTriggerEnter2D (Collider2D col) {
+		if (col.tag == "Fall") {
+			Die ();
+		}
+
+		//Transition between areas logic
+		if (col.tag == "Transition") {
+			if (!facingRight) {
+				previousLimitLeft = cameraScript.limitLeft;
+				previousLimitRight = cameraScript.limitRight;
+				previousLimitTop = cameraScript.limitTop;
+				previousLimitBot = cameraScript.limitBottom;
+
+				Vector3 target = new Vector3 (col.transform.position.x-5, cameraObject.transform.position.y, 0);
+				cameraScript.MoveCamera (target, 20f);
+				cameraScript.ActivateLimits (col.transform.position.x - 9, col.transform.position.x - 5, (float)2.04, (float)2.04);
+
+				transitionObject.transform.position = new Vector3 (transitionObject.transform.position.x-5+cameraSize/2f, transitionObject.transform.position.y, transitionObject.transform.position.z);
+			} else {
+				Vector3 target = new Vector3 (previousLimitLeft, cameraObject.transform.position.y, 0);
+				cameraScript.MoveCamera (target, 20f);
+				cameraScript.ActivateLimits (previousLimitLeft, previousLimitRight, (float)2.04, (float)2.04);
+
+				transitionObject.transform.position = new Vector3 (transitionObject.transform.position.x+5-cameraSize/2f, transitionObject.transform.position.y, transitionObject.transform.position.z);
+			}
+		}
 	}
 }

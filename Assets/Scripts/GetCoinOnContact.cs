@@ -22,8 +22,7 @@ public class GetCoinOnContact : MonoBehaviour {
 	void OnTriggerEnter2D (Collider2D col) {
 		if (col.name == "Player") {
 			instantiatedObject = Instantiate (coinSoundObject);
-			Destroy (gameObject);
-			Destroy (instantiatedObject,coinSoundObject.GetComponent<AudioSource> ().clip.length);
+
 
 			for (int i = 0; i < 10; i++) {
 				if (scoreUIThree.sprite == scoreSprites [i]) {
@@ -66,6 +65,9 @@ public class GetCoinOnContact : MonoBehaviour {
 			} else {
 				scoreUIZero.sprite = scoreSprites [digitZero + 1];
 			}
+
+			Destroy (gameObject);
+			Destroy (instantiatedObject,coinSoundObject.GetComponent<AudioSource> ().clip.length);
 		}
 	}
 }
