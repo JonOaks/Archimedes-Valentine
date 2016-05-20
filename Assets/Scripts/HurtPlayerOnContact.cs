@@ -10,6 +10,7 @@ public class HurtPlayerOnContact : MonoBehaviour {
 				player.curHealth -= 1;
 			} else if (player.curHealth == 0) {
 				Physics2D.IgnoreLayerCollision(11, 13, true);
+				Physics2D.IgnoreLayerCollision(13, 11, true);
 			} else {
 				player.knockbackCount = player.knockbackLength;
 				player.curHealth -= 1;

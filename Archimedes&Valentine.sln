@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{4D8B556D-9DDC-D6A1-F3BF-647CC47EE705}") = "Archimedes&Valentine", "Assembly-CSharp.csproj", "{021D4AFD-83E8-619E-82A6-C228A0BFDFB7}"
+EndProject
+Project("{4D8B556D-9DDC-D6A1-F3BF-647CC47EE705}") = "Archimedes&Valentine", "Assembly-CSharp-Editor.csproj", "{2DFD97DF-93E9-AA43-BF46-DF3A58BFF5E3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{021D4AFD-83E8-619E-82A6-C228A0BFDFB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{021D4AFD-83E8-619E-82A6-C228A0BFDFB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{021D4AFD-83E8-619E-82A6-C228A0BFDFB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{021D4AFD-83E8-619E-82A6-C228A0BFDFB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DFD97DF-93E9-AA43-BF46-DF3A58BFF5E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DFD97DF-93E9-AA43-BF46-DF3A58BFF5E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DFD97DF-93E9-AA43-BF46-DF3A58BFF5E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DFD97DF-93E9-AA43-BF46-DF3A58BFF5E3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal

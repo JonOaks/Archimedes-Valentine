@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 
 Project("{3631CF96-4405-4B6A-84AC-057681DF57E5}") = "Archimedes & Valentine", "Assembly-CSharp.csproj", "{2B1870D5-FBA9-2EBF-8FE4-C6D6F04E8D9F}"
 EndProject
+Project("{3631CF96-4405-4B6A-84AC-057681DF57E5}") = "Archimedes & Valentine", "Assembly-CSharp-Editor.csproj", "{5AF79CEE-54A8-A922-94BA-7AF836331EAB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{2B1870D5-FBA9-2EBF-8FE4-C6D6F04E8D9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B1870D5-FBA9-2EBF-8FE4-C6D6F04E8D9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B1870D5-FBA9-2EBF-8FE4-C6D6F04E8D9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AF79CEE-54A8-A922-94BA-7AF836331EAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AF79CEE-54A8-A922-94BA-7AF836331EAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AF79CEE-54A8-A922-94BA-7AF836331EAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AF79CEE-54A8-A922-94BA-7AF836331EAB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -22,20 +22,24 @@ public class PauseMenu : MonoBehaviour {
 
 	private float soundTime = 0.0f;
 
+	private HUD hud;
+
 	void Start () {
 		pauseUI.SetActive (false);
 		defaultPauseMenu = true;
 		menuMovePlayed = false;
 		menuSelectPlayed = false;
 		menuEnterPlayed = true;
+
+		hud = GameObject.Find("Main Camera").GetComponent<HUD> ();
 	}
 
 	void Update () {
-		if (Input.GetButtonDown ("Pause")) {
+		if (Input.GetButtonDown ("Pause") && !GameObject.Find("Player").GetComponent <PlayerController> ().endLevelInProgress) {
 			paused = !paused;
 		}
 
-		if (paused) {
+		if (paused && !hud.gameOverInProgress) {
 			pauseUI.SetActive (true);
 			Time.timeScale = 0;
 			if (menuEnterPlayed) {

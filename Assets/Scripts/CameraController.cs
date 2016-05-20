@@ -314,12 +314,12 @@ public class CameraController : MonoBehaviour {
 
 		while (transform.position != targetPosition)
 		{
-			player.GetComponent<PlayerController> ().cameraMoving = true;
+			GameObject.Find("Player").GetComponent<PlayerController> ().cameraMoving = true;
 			transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
 			yield return 0;
 		}
 
-		player.GetComponent<PlayerController> ().cameraMoving = false;
+		GameObject.Find("Player").GetComponent<PlayerController> ().cameraMoving = false;
 		activeTracking = true;
 	}
 	
