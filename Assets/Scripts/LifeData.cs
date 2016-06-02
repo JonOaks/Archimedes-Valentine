@@ -17,8 +17,8 @@ public class LifeData : MonoBehaviour {
 		DontDestroyOnLoad (gameObject);
 		lifeDigitOne = 0;
 		lifeDigitZero = 3;
-		spawnPoint = new Vector3 (-3.3f, 6.4f, 0f);
-		limitLeft = 5f;
+		spawnPoint = new Vector3 (-0.73f, 5.4f, 0f);
+		limitLeft = 6f;
 		limitRight = 149.8f;
 		limitTop = 7.4f;
 		limitBot = 7.4f;

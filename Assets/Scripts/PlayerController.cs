@@ -50,11 +50,12 @@ public class PlayerController : MonoBehaviour {
 	public GameObject gameOverUI;
 	public GameObject gameOverImage;
 	public GameObject loadingImage;
-	public GameObject loadingImage2;
-	public GameObject loadingImage3;
 	public bool endLevelInProgress;
 	public GameObject HUD;
 	private GameObject persistentObject;
+
+	public AudioSource levelMusic;
+	private int playOnce = 0;
 
 	void Start () {
 		persistentObject = GameObject.Find ("LifeData");
@@ -76,9 +77,11 @@ public class PlayerController : MonoBehaviour {
 		cameraScript = cameraObject.GetComponent<CameraController> ();
 		cameraSize = cameraObject.GetComponent<Camera> ().aspect * (cameraObject.GetComponent<Camera>().orthographicSize * 2f);
 		cameraScript.ActivateLimits (persistentObject.GetComponent <LifeData> ().limitLeft, persistentObject.GetComponent <LifeData> ().limitRight,
-			persistentObject.GetComponent <LifeData> ().limitBot, persistentObject.GetComponent <LifeData> ().limitTop);
+		persistentObject.GetComponent <LifeData> ().limitBot, persistentObject.GetComponent <LifeData> ().limitTop);
 
 		endLevelInProgress = false;
+
+		levelMusic = GameObject.Find ("LevelMusic").GetComponent <AudioSource> ();
 	}
 
 	void FixedUpdate () {
@@ -155,6 +158,12 @@ public class PlayerController : MonoBehaviour {
 		if (grounded) {
 			jumped = false;
 		}
+
+		if (curHealth <= 0) {
+			Die ();
+			grounded = false;
+			jumped = true;
+		}
 	}
 
 	void Update () {
@@ -183,15 +192,25 @@ public class PlayerController : MonoBehaviour {
 
 		if (curHealth <= 0) {
 			Die ();
-
+			grounded = false;
+			jumped = true;
 		}
 
 		if (!cameraMoving) {
-			gameOverUI.SetActive (false);
 			gameOverImage.SetActive (true);
 			loadingImage.SetActive (false);
 			endLevelInProgress = false;
-			HUD.SetActive (true);
+			if (!cameraObject.GetComponent <HUD> ().gameOverInProgress) {
+				HUD.SetActive (true);
+				gameOverUI.SetActive (false);
+			}
+
+		}
+		if (cameraObject.transform.position.Equals (GameObject.Find ("CameraPositionLevel2").transform.position)) {
+			if (playOnce == 0) {
+				playOnce = 1;
+				levelMusic.Play ();
+			}
 		}
 	}
 
@@ -205,6 +224,7 @@ public class PlayerController : MonoBehaviour {
 	void Die () {
 		Physics2D.IgnoreLayerCollision(11, 13, true);
 		anim.SetBool ("Dead", true);
+		levelMusic.Stop();
 		if (!deathSoundPlayed) {
 			deathSoundPlayed = true;
 			instantiatedSoundObject = Instantiate (deathSoundObject);
@@ -223,16 +243,19 @@ public class PlayerController : MonoBehaviour {
 			gameOverUI.SetActive (true);
 			gameOverImage.SetActive (false);
 
-			persistentObject.GetComponent <LifeData> ().limitBot = -114.5f;
-			persistentObject.GetComponent <LifeData> ().limitTop = -114.5f;
-			Vector3 target = new Vector3 (-1.9f, -114.5f, 0f);
-			Vector3 cameraTarget = new Vector3 (5f, -114.5f, 0f);
+			persistentObject.GetComponent <LifeData> ().limitBot = -199.15f;
+			persistentObject.GetComponent <LifeData> ().limitTop = -199.15f;
+			Vector3 target = new Vector3 (-1.9f, -199.15f, 0f);
+			Vector3 cameraTarget = new Vector3 (6f, -199.15f, 0f);
 			cameraScript.MoveCamera (cameraTarget, 50f);
-			cameraScript.ActivateLimits (5f, 149.8f, persistentObject.GetComponent <LifeData> ().limitBot, persistentObject.GetComponent <LifeData> ().limitTop);
+			cameraScript.ActivateLimits (6f, 149.8f, persistentObject.GetComponent <LifeData> ().limitBot, persistentObject.GetComponent <LifeData> ().limitTop);
 
 			gameObject.transform.position = target;
 			GameObject.Find ("LifeData").GetComponent<LifeData> ().spawnPoint = target;
-			curHealth = maxHealth;
+			// Get Max Health?
+			//curHealth = maxHealth;
+
+			levelMusic.Stop();
 		}
 
 		//Transition between areas logic

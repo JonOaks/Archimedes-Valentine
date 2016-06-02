@@ -40,6 +40,7 @@ public class PauseMenu : MonoBehaviour {
 		}
 
 		if (paused && !hud.gameOverInProgress) {
+			GameObject.Find("Player").GetComponent <PlayerController> ().levelMusic.Pause();
 			pauseUI.SetActive (true);
 			Time.timeScale = 0;
 			if (menuEnterPlayed) {
@@ -65,6 +66,7 @@ public class PauseMenu : MonoBehaviour {
 						Destroy (instantiatedObject, soundTime);
 					}
 					paused = false;
+					GameObject.Find("Player").GetComponent <PlayerController> ().levelMusic.Play();
 				}
 			} else {
 				continueBTN.animator.Play ("Normal");
@@ -81,6 +83,7 @@ public class PauseMenu : MonoBehaviour {
 						SceneManager.LoadScene ("LoadingScreen");
 					}
 					paused = false;
+					GameObject.Find("Player").GetComponent <PlayerController> ().levelMusic.Play();
 				}
 			}
 			if (Input.GetKeyDown (KeyCode.DownArrow) || Input.GetKeyDown (KeyCode.UpArrow)) {
@@ -91,6 +94,7 @@ public class PauseMenu : MonoBehaviour {
 				soundTime = menuEnterSoundObject.GetComponent<AudioSource> ().clip.length;
 				instantiatedObject = Instantiate(menuEnterSoundObject);
 				Destroy (instantiatedObject, soundTime);
+				GameObject.Find("Player").GetComponent <PlayerController> ().levelMusic.Play();
 			}
 			defaultPauseMenu = true;
 			menuEnterPlayed = true;

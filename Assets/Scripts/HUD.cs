@@ -27,6 +27,7 @@ public class HUD : MonoBehaviour {
 
 	public GameObject gameOverUI;
 	public bool gameOverInProgress;
+	public GameObject HUDUI;
 
 	void Start () {
 		player = GameObject.Find("Player").GetComponent<PlayerController> ();
@@ -67,16 +68,15 @@ public class HUD : MonoBehaviour {
 			lifeChanged = true;
 			for (int i = 0; i < 2; i++) {
 				if (digitOne == 0) {
-					if (digitZero != 1) {
+					if (digitZero > 1) {
 						lifeDataDigitZero.GetComponent<Image> ().sprite = lifeSprites [digitZero - 1];
 						lifeDataDigitZeroPersistent.GetComponent<LifeData> ().lifeDigitZero = digitZero - 1;
 					} else {
-						if (!gameOverInProgress) {
-							GameObject.Find ("HUD").SetActive (false);
-						}
+						lifeDataDigitZero.GetComponent<Image> ().sprite = lifeSprites [digitZero - 1];
+						lifeDataDigitZeroPersistent.GetComponent<LifeData> ().lifeDigitZero = digitZero - 1;
+						HUDUI.SetActive (false);
 
 						gameOverInProgress = true;
-						gameOverUI.SetActive (true);
 						StartCoroutine ("Wait");
 					}
 				} else {
@@ -93,13 +93,14 @@ public class HUD : MonoBehaviour {
 	}
 
 	IEnumerator Wait () {
+		gameOverUI.SetActive (true);
 		yield return new WaitForSeconds (1.5f);
 		lifeDataDigitOnePersistent.GetComponent<LifeData> ().lifeDigitOne = 0;
 		lifeDataDigitZeroPersistent.GetComponent<LifeData> ().lifeDigitZero = 3;
 		// restarting spawn point
-		lifeDataDigitOnePersistent.GetComponent<LifeData> ().spawnPoint = new Vector3 (-1.9f, -114.5f, 0f);
-		lifeDataDigitOnePersistent.GetComponent<LifeData> ().limitLeft = 5f;
-		lifeDataDigitOnePersistent.GetComponent<LifeData> ().limitRight = -114.5f;
+		lifeDataDigitOnePersistent.GetComponent<LifeData> ().spawnPoint = new Vector3 (-0.73f, 5.4f, 0f);
+		lifeDataDigitOnePersistent.GetComponent<LifeData> ().limitLeft = 6f;
+		lifeDataDigitOnePersistent.GetComponent<LifeData> ().limitRight = 149.8f;
 		lifeDataDigitOnePersistent.GetComponent<LifeData> ().limitBot = 7.4f;
 		lifeDataDigitOnePersistent.GetComponent<LifeData> ().limitTop = 7.4f; 
 						
